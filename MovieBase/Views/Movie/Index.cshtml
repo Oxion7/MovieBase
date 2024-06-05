@@ -22,6 +22,9 @@
                 @Html.DisplayNameFor(model => model.Country)
             </th>
             <th>
+                @Html.DisplayNameFor(model => model.Description)
+            </th>
+            <th>
                 @Html.DisplayNameFor(model => model.Genre)
             </th>
             
@@ -40,6 +43,9 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Country)
             </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Genre.Name)
             </td>

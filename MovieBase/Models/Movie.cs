@@ -25,6 +25,10 @@ namespace MovieBase.Models
         [StringLength(50, MinimumLength = 3, ErrorMessage = "Длина строки должна быть от 3 до 50 символов")]
         [Display(Name = "Страна")]
         public string Country { get; set; }
+        [Required]
+        [StringLength(250, MinimumLength = 30, ErrorMessage = "Длина строки должна быть от 30 до 250 символов")]
+        [Display(Name = "Описание")]
+        public string Description { get; set; }
 
         [HiddenInput(DisplayValue = false)]
         public int GenreId { get; set; }
@@ -34,10 +38,5 @@ namespace MovieBase.Models
 
         [HiddenInput(DisplayValue = false)]
         public string? ImageUrl { get; set; }
-
-        [HiddenInput(DisplayValue = false)]
-        public int? MovieListId { get; set; }
-
-        public MovieList MovieList { get; set; }
     }
 }

@@ -53,6 +53,11 @@ namespace MovieBase.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasMaxLength(250)
+                        .HasColumnType("nvarchar(250)");
+
                     b.Property<int>("GenreId")
                         .HasColumnType("int");
 
@@ -100,13 +105,11 @@ namespace MovieBase.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("MovieBase.Models.MovieList", "MovieList")
+                    b.HasOne("MovieBase.Models.MovieList", null)
                         .WithMany("Movies")
                         .HasForeignKey("MovieListId");
 
                     b.Navigation("Genre");
-
-                    b.Navigation("MovieList");
                 });
 
             modelBuilder.Entity("MovieBase.Models.Genre", b =>
