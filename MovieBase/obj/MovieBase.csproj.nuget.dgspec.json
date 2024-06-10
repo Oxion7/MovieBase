@@ -1,20 +1,24 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Oxion7\\Desktop\\MovieBase\\MovieBase\\MovieBase.csproj": {}
+    "C:\\Users\\Artem\\Desktop\\New folder\\MovieBase\\MovieBase\\MovieBase.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Oxion7\\Desktop\\MovieBase\\MovieBase\\MovieBase.csproj": {
+    "C:\\Users\\Artem\\Desktop\\New folder\\MovieBase\\MovieBase\\MovieBase.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Oxion7\\Desktop\\MovieBase\\MovieBase\\MovieBase.csproj",
+        "projectUniqueName": "C:\\Users\\Artem\\Desktop\\New folder\\MovieBase\\MovieBase\\MovieBase.csproj",
         "projectName": "MovieBase",
-        "projectPath": "C:\\Users\\Oxion7\\Desktop\\MovieBase\\MovieBase\\MovieBase.csproj",
-        "packagesPath": "C:\\Users\\Oxion7\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Oxion7\\Desktop\\MovieBase\\MovieBase\\obj\\",
+        "projectPath": "C:\\Users\\Artem\\Desktop\\New folder\\MovieBase\\MovieBase\\MovieBase.csproj",
+        "packagesPath": "C:\\Users\\Artem\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Artem\\Desktop\\New folder\\MovieBase\\MovieBase\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
         "configFilePaths": [
-          "C:\\Users\\Oxion7\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Artem\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -34,6 +38,11 @@
           "warnAsError": [
             "NU1605"
           ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
         }
       },
       "frameworks": {
@@ -86,7 +95,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.403\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.200\\RuntimeIdentifierGraph.json"
         }
       }
     }
