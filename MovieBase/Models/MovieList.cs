@@ -11,5 +11,7 @@ namespace MovieBase.Models
         public int Id { get; set; } // ID
 
         public IEnumerable<Movie> Movies { get; set; }
+
+        public string UserId { get; set; }
     }
 }
