@@ -39,5 +39,8 @@ namespace MovieBase.Models
 
         [HiddenInput(DisplayValue = false)]
         public string? ImageUrl { get; set; }
+
+        [HiddenInput(DisplayValue = false)]
+        public ICollection<UserMovie> UserMovies { get; set; }
     }
 }

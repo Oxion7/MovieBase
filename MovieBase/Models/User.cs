@@ -10,6 +10,6 @@ namespace MovieBase.Models
     [Table("User")]
     public class User : IdentityUser
     {
-        public int? MovieListId { get; set; }
+        public ICollection<UserMovie> UserMovies { get; set; }
     }
 }
