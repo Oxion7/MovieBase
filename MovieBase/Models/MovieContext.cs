@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using MovieBase.ViewModels;
 
 namespace MovieBase.Models
 {
@@ -13,5 +14,7 @@ namespace MovieBase.Models
              : base(options)
         {
         }
+
+        public DbSet<MovieBase.ViewModels.UserViewModel>? UserViewModel { get; set; }
     }
 }

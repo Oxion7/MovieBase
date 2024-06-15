@@ -35,12 +35,14 @@ namespace GameLibrary.Controllers
                     Email = model.Email
                 };
                 var result = await _userManager.CreateAsync(user, model.Password);
+
                 foreach (var error in result.Errors)
                 {
                     ModelState.AddModelError(string.Empty, error.Description);
                 }
                 if (result.Succeeded)
                 {
+                    await _userManager.AddToRoleAsync(user, "user");
                     return RedirectToAction("Login", "Account");
                 }
             }
