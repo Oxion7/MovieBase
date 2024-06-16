@@ -1,0 +1,13 @@
+﻿@model MovieBase.Models.Movie
+
+@{
+    ViewData["Title"] = "Movie Already Exists";
+}
+
+<h1>Movie Already Exists</h1>
+
+<div class="alert alert-warning">
+    <p>The movie '@Model.Name' is already in your list.</p>
+</div>
+
+<a asp-controller="Home" asp-action="Index" class="btn btn-primary">Back to Home List</a>

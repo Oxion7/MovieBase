@@ -39,6 +39,7 @@ namespace MovieBase.Controllers
             return RedirectToAction("Index", "Genre");
         }
 
+        //TODO: сделать предупреждение если есть фильм этого жанра
         [Authorize(Roles = "manager")]
         public IActionResult Delete(int? id)
         {

@@ -29,18 +29,18 @@
             </div>
             <div class="form-group">
                 <label asp-for="Genre" class="control-label"></label>
-                <select asp-for="GenreId" class ="form-control" asp-items="ViewBag.Genre"></select>
+                <select asp-for="GenreId" class="form-control" asp-items="ViewBag.Genre"></select>
             </div>
             <div class="form-group">
                 <label asp-for="Description" class="control-label"></label>
-                <input asp-for="Description" class="form-control" />
+                <textarea asp-for="Description" class="form-control auto-resize"></textarea>
                 <span asp-validation-for="Description" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label  class="control-label">Выберите файл для загрузки</label>
-                <input type ="file" name="upload"  class="form-control" />               
+                <label class="control-label">Выберите файл для загрузки</label>
+                <input type="file" name="upload" class="form-control" />
             </div>
-            
+
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>
@@ -53,5 +53,24 @@
 </div>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var textareas = document.querySelectorAll('textarea.auto-resize');
+
+            function resizeTextarea(textarea) {
+                textarea.style.height = 'auto';
+                textarea.style.height = (textarea.scrollHeight) + 'px';
+            }
+
+            textareas.forEach(function(textarea) {
+                textarea.addEventListener('input', function() {
+                    resizeTextarea(textarea);
+                });
+                resizeTextarea(textarea); // Initial resize
+            });
+        });
+    </script>
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }

@@ -15,6 +15,9 @@
                     <h6 class="card-subtitle mb-2 text-body-secondary">@movie.Country</h6>
                     <p>@movie.ReleaseYear</p>                               
                 </div>
+                <div>
+                    <a asp-controller="UserMovie" asp-action="AddMovieToUser" asp-route-id="@movie.Id" class="btn btn-primary">Add</a>
+                </div>
                 <div class="card-footer">
                 </div>
             </div>

@@ -27,7 +27,6 @@ namespace MovieBase.Models
         public string Country { get; set; }
 
         [Required]
-        [StringLength(250, ErrorMessage = "Длина строки должна быть до 250 символов")]
         [Display(Name = "Описание")]
         public string Description { get; set; }
 

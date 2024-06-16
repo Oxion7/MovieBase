@@ -1,0 +1,36 @@
+﻿@model IEnumerable<MovieBase.Models.Movie>
+
+@{
+    ViewData["Title"] = "Movies";
+}
+
+<h1>Movies</h1>
+
+@if (TempData["Message"] != null)
+{
+    <div class="alert alert-info">
+        @TempData["Message"]
+    </div>
+}
+
+<div class="row">
+    @foreach (var item in Model)
+    {
+        <div class="col-md-4">
+            <div class="card mb-4">
+                <img src="~/images/@item.ImageUrl" class="card-img-top" alt="@item.Name">
+                <div class="card-body">
+                    <h5 class="card-title">@item.Name</h5>
+                    <p class="card-text"><strong>Release Year:</strong> @item.ReleaseYear</p>
+                    <p class="card-text"><strong>Country:</strong> @item.Country</p>
+                    <p class="card-text"><strong>Description:</strong> @item.Description</p>
+                    <p class="card-text"><strong>Genre:</strong> @item.Genre.Name</p>
+                    <div>
+                        <a asp-controller="Movie" asp-action="Details" asp-route-id="@item.Id" class="btn btn-secondary">Details</a>
+                        <a asp-controller="UserMovie" asp-action="DeleteMovieFromUser" asp-route-id="@item.Id" class="btn btn-danger">Delete</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>

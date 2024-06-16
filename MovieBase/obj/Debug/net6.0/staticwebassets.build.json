@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "pbobQidIohJcyFG3XKLyRt+HPJSePNg4PKWFY+F540k=",
+  "Hash": "PcszJJA6ciau3PiRNDBGomLdLG9lJlRrTQpnG+kxMLs=",
   "Source": "MovieBase",
   "BasePath": "_content/MovieBase",
   "Mode": "Default",
@@ -112,12 +112,12 @@
       "OriginalItemSpec": "wwwroot\\images\\_AFz73dmDmM.jpg"
     },
     {
-      "Identity": "C:\\Users\\Artem\\Desktop\\New folder\\MovieBase\\MovieBase\\wwwroot\\images\\1613-naruto.png",
+      "Identity": "C:\\Users\\Artem\\Desktop\\New folder\\MovieBase\\MovieBase\\wwwroot\\images\\argemia.png",
       "SourceId": "MovieBase",
       "SourceType": "Discovered",
       "ContentRoot": "C:\\Users\\Artem\\Desktop\\New folder\\MovieBase\\MovieBase\\wwwroot\\",
       "BasePath": "_content/MovieBase",
-      "RelativePath": "images/1613-naruto.png",
+      "RelativePath": "images/argemia.png",
       "AssetKind": "All",
       "AssetMode": "All",
       "AssetRole": "Primary",
@@ -128,15 +128,15 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\images\\1613-naruto.png"
+      "OriginalItemSpec": "wwwroot\\images\\argemia.png"
     },
     {
-      "Identity": "C:\\Users\\Artem\\Desktop\\New folder\\MovieBase\\MovieBase\\wwwroot\\images\\HYPER-RICH-MIKU.jpg",
+      "Identity": "C:\\Users\\Artem\\Desktop\\New folder\\MovieBase\\MovieBase\\wwwroot\\images\\fisg.jpg",
       "SourceId": "MovieBase",
       "SourceType": "Discovered",
       "ContentRoot": "C:\\Users\\Artem\\Desktop\\New folder\\MovieBase\\MovieBase\\wwwroot\\",
       "BasePath": "_content/MovieBase",
-      "RelativePath": "images/HYPER-RICH-MIKU.jpg",
+      "RelativePath": "images/fisg.jpg",
       "AssetKind": "All",
       "AssetMode": "All",
       "AssetRole": "Primary",
@@ -147,15 +147,15 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\images\\HYPER-RICH-MIKU.jpg"
+      "OriginalItemSpec": "wwwroot\\images\\fisg.jpg"
     },
     {
-      "Identity": "C:\\Users\\Artem\\Desktop\\New folder\\MovieBase\\MovieBase\\wwwroot\\images\\nina.png",
+      "Identity": "C:\\Users\\Artem\\Desktop\\New folder\\MovieBase\\MovieBase\\wwwroot\\images\\lighthouse.png",
       "SourceId": "MovieBase",
       "SourceType": "Discovered",
       "ContentRoot": "C:\\Users\\Artem\\Desktop\\New folder\\MovieBase\\MovieBase\\wwwroot\\",
       "BasePath": "_content/MovieBase",
-      "RelativePath": "images/nina.png",
+      "RelativePath": "images/lighthouse.png",
       "AssetKind": "All",
       "AssetMode": "All",
       "AssetRole": "Primary",
@@ -166,15 +166,15 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\images\\nina.png"
+      "OriginalItemSpec": "wwwroot\\images\\lighthouse.png"
     },
     {
-      "Identity": "C:\\Users\\Artem\\Desktop\\New folder\\MovieBase\\MovieBase\\wwwroot\\images\\p1alY_FVkw0.jpg",
+      "Identity": "C:\\Users\\Artem\\Desktop\\New folder\\MovieBase\\MovieBase\\wwwroot\\images\\TheShining.png",
       "SourceId": "MovieBase",
       "SourceType": "Discovered",
       "ContentRoot": "C:\\Users\\Artem\\Desktop\\New folder\\MovieBase\\MovieBase\\wwwroot\\",
       "BasePath": "_content/MovieBase",
-      "RelativePath": "images/p1alY_FVkw0.jpg",
+      "RelativePath": "images/TheShining.png",
       "AssetKind": "All",
       "AssetMode": "All",
       "AssetRole": "Primary",
@@ -185,26 +185,7 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\images\\p1alY_FVkw0.jpg"
-    },
-    {
-      "Identity": "C:\\Users\\Artem\\Desktop\\New folder\\MovieBase\\MovieBase\\wwwroot\\images\\Zonas_51_women_assassin_neko_void_magic_knifes_cat_ears_dark_ba_9b1dc176-c916-45a3-99a4-91f4836822b5.png",
-      "SourceId": "MovieBase",
-      "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\Artem\\Desktop\\New folder\\MovieBase\\MovieBase\\wwwroot\\",
-      "BasePath": "_content/MovieBase",
-      "RelativePath": "images/Zonas_51_women_assassin_neko_void_magic_knifes_cat_ears_dark_ba_9b1dc176-c916-45a3-99a4-91f4836822b5.png",
-      "AssetKind": "All",
-      "AssetMode": "All",
-      "AssetRole": "Primary",
-      "AssetMergeBehavior": "PreferTarget",
-      "AssetMergeSource": "",
-      "RelatedAsset": "",
-      "AssetTraitName": "",
-      "AssetTraitValue": "",
-      "CopyToOutputDirectory": "Never",
-      "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\images\\Zonas_51_women_assassin_neko_void_magic_knifes_cat_ears_dark_ba_9b1dc176-c916-45a3-99a4-91f4836822b5.png"
+      "OriginalItemSpec": "wwwroot\\images\\TheShining.png"
     },
     {
       "Identity": "C:\\Users\\Artem\\Desktop\\New folder\\MovieBase\\MovieBase\\wwwroot\\js\\site.js",

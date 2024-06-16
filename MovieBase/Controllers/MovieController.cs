@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -12,13 +13,15 @@ namespace MovieBase.Controllers
     {
         private IWebHostEnvironment _environment;
         private MovieContext _db;
+        private UserManager<User> _userManager;
         private const int ImageWidth = 150;
         private const int ImageHeight = 200;
 
-        public MovieController(IWebHostEnvironment env, MovieContext context)
+        public MovieController(IWebHostEnvironment env, MovieContext context, UserManager<User> userManager)
         {
             _environment = env;
             _db = context;
+            _userManager = userManager;
         }
 
         public IActionResult Index()

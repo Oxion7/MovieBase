@@ -11,6 +11,11 @@
                 </a>
                 <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                     <li>
+                        <form asp-controller="UserMovie" asp-action="Index" class="dropdown-item">
+                            <button type="submit" class="btn navbar-btn "> Список фильмов</button>
+                        </form>
+                    </li>
+                    <li>
                         <a class="dropdown-item" asp-action="ChangePassword"
                            asp-controller="Account"
                            asp-route-name="@UserManager.GetUserName(User)">Сменить пароль</a>
