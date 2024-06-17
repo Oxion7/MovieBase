@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("MovieBase")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Release")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+f5da1fef96f2c08b4de7372ce02366095b9d64a0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+1dc2682ce95899fa937473b0aefd6263fe28775e")]
 [assembly: System.Reflection.AssemblyProductAttribute("MovieBase")]
 [assembly: System.Reflection.AssemblyTitleAttribute("MovieBase")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
