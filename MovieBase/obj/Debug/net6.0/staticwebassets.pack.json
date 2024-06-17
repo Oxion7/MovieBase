@@ -29,6 +29,14 @@
       "PackagePath": "staticwebassets\\images\\fisg.jpg"
     },
     {
+      "Id": "C:\\Users\\Artem\\Desktop\\New folder\\MovieBase\\MovieBase\\wwwroot\\images\\interstellar.png",
+      "PackagePath": "staticwebassets\\images\\interstellar.png"
+    },
+    {
+      "Id": "C:\\Users\\Artem\\Desktop\\New folder\\MovieBase\\MovieBase\\wwwroot\\images\\leon.png",
+      "PackagePath": "staticwebassets\\images\\leon.png"
+    },
+    {
       "Id": "C:\\Users\\Artem\\Desktop\\New folder\\MovieBase\\MovieBase\\wwwroot\\images\\lighthouse.png",
       "PackagePath": "staticwebassets\\images\\lighthouse.png"
     },

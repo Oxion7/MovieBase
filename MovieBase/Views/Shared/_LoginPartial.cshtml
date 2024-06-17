@@ -9,10 +9,10 @@
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                     @UserManager.GetUserName(User)
                 </a>
-                <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownMenuLink">
                     <li>
                         <form asp-controller="UserMovie" asp-action="Index" class="dropdown-item">
-                            <button type="submit" class="btn navbar-btn "> Список фильмов</button>
+                            <button type="submit" class="btn navbar-btn " style="padding:0"> Список просмотренного</button>
                         </form>
                     </li>
                     <li>
@@ -22,7 +22,7 @@
                     </li>
                     <li>
                         <form asp-controller="Account" asp-action="Logout" class="dropdown-item">
-                            <button type="submit" class="btn navbar-btn "> Выход</button>
+                            <button type="submit" class="btn navbar-btn" style="padding:0"> Выход</button>
                         </form>
                     </li>
                 </ul>
@@ -43,3 +43,18 @@
         </ul>
     }
 }
+<style>/* custom.css */
+
+/* Custom styles for navbar dropdown */
+.dropdown-menu-end {
+    right: 0;
+    left: auto;
+}
+
+.navbar-nav .dropdown-menu .btn {
+    width: 100%;
+    text-align: left;
+}
+
+
+</style>

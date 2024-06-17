@@ -1,60 +1,54 @@
 ﻿@model IEnumerable<MovieBase.Models.Movie>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Фильмы";
 }
 
-<h1>Index</h1>
+<h1 class="text-center my-4">Список фильмов</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Name)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ReleaseYear)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Country)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Description)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Genre)
-            </th>
-            
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ReleaseYear)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Country)
-            </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Description)
-                </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Genre.Name)
-            </td>
-                       <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
+@if (User.IsInRole("manager"))
+{
+    <div class="text-right mb-3">
+        <a asp-action="Create" class="btn btn-primary">Добавить новый фильм</a>
+    </div>
 }
-    </tbody>
-</table>
+
+<div class="table-responsive">
+    <table class="table table-striped table-hover">
+        <thead class="thead-dark">
+            <tr>
+                <th>@Html.DisplayNameFor(model => model.Name)</th>
+                <th>@Html.DisplayNameFor(model => model.ReleaseYear)</th>
+                <th>@Html.DisplayNameFor(model => model.Country)</th>
+                <th>@Html.DisplayNameFor(model => model.Description)</th>
+                <th>@Html.DisplayNameFor(model => model.Genre)</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@Html.DisplayFor(modelItem => item.Name)</td>
+                    <td>@Html.DisplayFor(modelItem => item.ReleaseYear)</td>
+                    <td>@Html.DisplayFor(modelItem => item.Country)</td>
+                    <td>@Html.DisplayFor(modelItem => item.Description)</td>
+                    <td>@Html.DisplayFor(modelItem => item.Genre.Name)</td>
+                    <td>
+                        <div class="btn-group" role="group">
+                            @if (User.IsInRole("manager"))
+                            {
+                                <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-primary">Редактировать</a>
+                            }
+                            <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-info">Подробнее</a>
+                            @if (User.IsInRole("manager"))
+                            {
+                                <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger">Удалить</a>
+                            }
+                        </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

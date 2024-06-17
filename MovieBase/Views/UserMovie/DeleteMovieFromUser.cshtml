@@ -1,52 +1,50 @@
 ﻿@model MovieBase.Models.Movie
 
 @{
-    ViewData["Title"] = "DeleteMovieFromUser";
+    ViewData["Title"] = "Удалить из списка";
 }
 
-<<h1>Delete</h1>
+<div class="container mt-5">
+    <h1 class="text-center">@ViewData["Title"]</h1>
 
-<h3>Are you sure you want to delete this?</h3>
-<div>
-    <h4>Movie</h4>
-    <hr />
-    <dl class="row">
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Name)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Name)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.ReleaseYear)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.ReleaseYear)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Country)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Country)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Genre)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Genre.Name)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.ImageUrl)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.ImageUrl)
-        </dd>
+    @if (TempData["Message"] != null)
+    {
+        <div class="alert alert-info text-center">
+            @TempData["Message"]
+        </div>
+    }
+    else
+    {
+        <div class="card">
+            <div class="card-header">
+                <h3>Уверены, что хотите удалить фильм из списка просмотренного?</h3>
+                </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <dl class="row">
+                            <dt class="col-sm-4">Название</dt>
+                            <dd class="col-sm-8">@Model.Name</dd>
 
-    </dl>
+                            <dt class="col-sm-4">Год выхода</dt>
+                            <dd class="col-sm-8">@Model.ReleaseYear</dd>
 
-    <form asp-action="DeleteMovieFromUser">
-        <input type="hidden" asp-for="Id" />
-        <input type="submit" value="Delete" class="btn btn-danger" /> |
-        <a asp-action="Index">Back to List</a>
-    </form>
+                            <dt class="col-sm-4">Страна</dt>
+                            <dd class="col-sm-8">@Model.Country</dd>
+
+                            <dt class="col-sm-4">Жанр</dt>
+                            <dd class="col-sm-8">@Model.Genre.Name</dd>
+                        </dl>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer text-center">
+                <form asp-action="DeleteMovieFromUser" method="post" class="d-inline">
+                    <input type="hidden" asp-for="Id" />
+                    <button type="submit" class="btn btn-danger me-2">Удалить</button>
+                </form>
+                <a asp-action="Index" class="btn btn-secondary">Вернуться</a>
+            </div>
+        </div>
+    }
 </div>

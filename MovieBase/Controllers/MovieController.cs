@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -30,12 +31,42 @@ namespace MovieBase.Controllers
             return View(movies);
         }
 
+        public IActionResult Search(string searchStr)
+        {
+            var movies = _db.Movies.Include(b => b.Genre).ToList();
+
+            if (string.IsNullOrEmpty(searchStr))
+            {
+                ViewBag.Msg = "Напишите в строке поиска название фильма, что вы ищете.";
+                return View("Index", movies);
+            }
+
+            var list = movies.Where(b =>
+                b.Name.Contains(searchStr, StringComparison.OrdinalIgnoreCase) ||
+                b.Genre.Name.Contains(searchStr, StringComparison.OrdinalIgnoreCase) ||
+                b.ReleaseYear.ToString().Contains(searchStr, StringComparison.OrdinalIgnoreCase) ||
+                b.Country.Contains(searchStr, StringComparison.OrdinalIgnoreCase)).ToList();
+
+            if (list.Count == 0)
+            {
+                ViewBag.Msg = "По Вашему запросу ничего не найдено";
+                return View("Index", movies);
+            }
+            else
+            {
+                ViewBag.Msg = $"По Вашему запросу найдено: {list.Count} фильмов";
+                return View("Index", list);
+            }
+        }
+
+        [Authorize(Roles = "manager")]
         public IActionResult Create()
         {
             ViewBag.Genre = new SelectList(_db.Genres, "Id", "Name");
             return View();
         }
 
+        [Authorize(Roles = "manager")]
         [HttpPost]
         public IActionResult Create(Movie movie, IFormFile upload)
         {
@@ -69,6 +100,7 @@ namespace MovieBase.Controllers
             return View(movie);
         }
 
+        [Authorize(Roles = "manager")]
         public IActionResult Edit(int? id)
         {
             if (id == null)
@@ -80,6 +112,7 @@ namespace MovieBase.Controllers
             return View(movie);
         }
 
+        [Authorize(Roles = "manager")]
         [HttpPost]
         public IActionResult Edit(Movie movie, IFormFile upload)
         {
@@ -103,6 +136,7 @@ namespace MovieBase.Controllers
             return RedirectToAction("Index", "Home");
         }
 
+        [Authorize(Roles = "manager")]
         public IActionResult Delete(int? id)
         {
             if (id == null)
@@ -113,6 +147,7 @@ namespace MovieBase.Controllers
             return View(movie);
         }
 
+        [Authorize(Roles = "manager")]
         [HttpPost]
         public IActionResult Delete(Movie movie)
         {

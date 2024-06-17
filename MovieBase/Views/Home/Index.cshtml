@@ -1,8 +1,8 @@
 ﻿@model IEnumerable<MovieBase.Models.Movie>
 
-<p>
-    <a asp-controller="Movie" asp-action="Create">Create New</a>
-</p>
+@{
+    ViewData["Title"] = "Главная";
+}
 <br/>
 <div class="container">
     <div class="row justify-content-around row-cols-4">
@@ -16,7 +16,7 @@
                     <p>@movie.ReleaseYear</p>                               
                 </div>
                 <div>
-                    <a asp-controller="UserMovie" asp-action="AddMovieToUser" asp-route-id="@movie.Id" class="btn btn-primary">Add</a>
+                    <a asp-controller="UserMovie" asp-action="AddMovieToUser" asp-route-id="@movie.Id" class="btn btn-primary">Добавить в список просмотренного</a>
                 </div>
                 <div class="card-footer">
                 </div>

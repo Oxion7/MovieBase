@@ -4,11 +4,11 @@ namespace MovieBase.ViewModels
 {
     public class ResetPasswordViewModel
     {
-        [Required]
+        [Required(ErrorMessage = "Необходимо указать почту")]
         [EmailAddress]
         public string Email { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Необходимо указать пароль")]
         [StringLength(100, ErrorMessage = "Пароль должен содержать как минимум 6 символов", MinimumLength = 6)]
         [DataType(DataType.Password)]
         public string Password { get; set; }

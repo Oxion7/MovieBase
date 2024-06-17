@@ -1,12 +1,11 @@
 ﻿@model MovieBase.Models.Movie
 
 @{
-    ViewData["Title"] = "Create new movie";
+    ViewData["Title"] = "Добавить фильм";
 }
 
-<h1>Create</h1>
+<h1>Добавить фильм</h1>
 
-<h4>Movie</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -40,17 +39,15 @@
                 <label class="control-label">Выберите файл для загрузки</label>
                 <input type="file" name="upload" class="form-control" />
             </div>
-
+            <br/>
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="submit" value="Добавить фильм" class="btn btn-primary" />
+                <a asp-action="Index" asp-controller="Movie" class="btn btn-secondary">К списку фильмов</a>
             </div>
         </form>
     </div>
 </div>
 
-<div>
-    <a asp-action="Index" asp-controller="Home">Back to List</a>
-</div>
 
 @section Scripts {
     <script>

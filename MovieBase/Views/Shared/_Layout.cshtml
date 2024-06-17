@@ -20,27 +20,29 @@
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Главная</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Movie" asp-action="Index">Movies</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Movie" asp-action="Index">Фильмы</a>
                         </li>
                         
                         @if (User.IsInRole("manager"))
                         {
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Genre" asp-action="Index">Genres</a>
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Genre" asp-action="Index">Жанры</a>
                             </li>
                         }
                         @if (User.IsInRole("admin"))
                         {
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="User" asp-action="Index">User</a>
+                                <a class="nav-link text-dark" asp-area="" asp-controller="User" asp-action="Index">Пользователи</a>
                             </li>
                         }
+                        <form id="searchForm" style="display:flex" >
+                            <input class="form-control me-2" type="search" name="searchStr" placeholder="Поиск" aria-label="Поиск">
+                            <button class="btn btn-outline-success" type="submit">Поиск</button>
+                        </form>
+
                     </ul>
                     <partial name="_LoginPartial" />
                 </div>
@@ -64,3 +66,29 @@
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const searchForm = document.getElementById('searchForm');
+        const currentUrl = window.location.pathname.toLowerCase();
+
+        if (currentUrl.endsWith('/movie') || currentUrl.endsWith('/movie/search')) {
+            searchForm.style.display = "flex"; // Show the form
+            searchForm.action = '@Url.Action("Search", "Movie")';
+        } else if (currentUrl === '/' || currentUrl.endsWith('/home') || currentUrl.endsWith('/home/search')) {
+            searchForm.style.display = "flex"; // Show the form
+            searchForm.action = '@Url.Action("Search", "Home")';
+        } else {
+            searchForm.style.display = "none"; // Hide the form
+        }
+
+        searchForm.addEventListener('submit', function (event) {
+            event.preventDefault();
+            searchForm.method = 'post';
+            searchForm.submit();
+        });
+    });
+</script>
+
+
+

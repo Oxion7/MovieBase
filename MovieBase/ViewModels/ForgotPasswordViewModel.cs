@@ -4,7 +4,7 @@ namespace MovieBase.ViewModels
 {
     public class ForgotPasswordViewModel
     {
-        [Required]
+        [Required(ErrorMessage = "Необходимо указать почту")]
         [EmailAddress]
         public string Email { get; set; }
     }

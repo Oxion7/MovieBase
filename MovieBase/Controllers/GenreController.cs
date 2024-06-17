@@ -34,6 +34,13 @@ namespace MovieBase.Controllers
         [HttpPost]
         public IActionResult Create(Genre genre)
         {
+            // Check if the genre already exists
+            var existingGenre = _db.Genres.FirstOrDefault(g => g.Name == genre.Name);
+            if (existingGenre != null)
+            {
+                ModelState.AddModelError("Name", "Жанр с таким названием уже существует.");
+                return View(genre);
+            }
             _db.Genres.Add(genre);
             _db.SaveChanges();
             return RedirectToAction("Index", "Genre");

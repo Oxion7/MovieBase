@@ -4,22 +4,22 @@ namespace MovieBase.ViewModels
 {
     public class RegisterViewModel
     {
-        [Required]
+        [Required(ErrorMessage = "Необходимо указать имя пользователя")]
         [StringLength(100, ErrorMessage = "Поле {0} должно иметь минимум {2} и максимум {1} символов.", MinimumLength = 6)]
         [Display(Name = "Имя пользователя")]
         public string UserName { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Необходимо указать почту")]
         [Display(Name = "Email")]
         public string Email { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Необходимо указать пароль")]
         [DataType(DataType.Password)]
         [StringLength(100, ErrorMessage = "Поле {0} должно иметь минимум {2} и максимум {1} символов.", MinimumLength = 6)]
         [Display(Name = "Пароль")]
         public string Password { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Пароль не подтвержден")]
         [Compare("Password", ErrorMessage = "Пароли не совпадают")]
         [DataType(DataType.Password)]
         [Display(Name = "Подтвердить пароль")]

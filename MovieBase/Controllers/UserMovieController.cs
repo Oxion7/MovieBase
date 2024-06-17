@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MovieBase.Models;
@@ -17,6 +18,7 @@ namespace MovieBase.Controllers
             _userManager = userManager;
         }
 
+        [Authorize]
         public async Task<IActionResult> Index()
         {
             var user = await _userManager.GetUserAsync(User);
@@ -32,6 +34,7 @@ namespace MovieBase.Controllers
             return View(movies);
         }
 
+        [Authorize]
         [HttpGet]
         public async Task<IActionResult> AddMovieToUserAsync(int? id)
         {
@@ -50,6 +53,7 @@ namespace MovieBase.Controllers
             return View(movie);
         }
 
+        [Authorize]
         [HttpPost]
         public async Task<IActionResult> AddMovieToUser(Movie movie)
         {
@@ -75,6 +79,7 @@ namespace MovieBase.Controllers
             return RedirectToAction("Index");
         }
 
+        [Authorize]
         [HttpGet]
         public async Task<IActionResult> DeleteMovieFromUser(int? id)
         {
@@ -91,6 +96,7 @@ namespace MovieBase.Controllers
             return View(movie);
         }
 
+        [Authorize]
         [HttpPost]
         public async Task<IActionResult> DeleteMovieFromUser(Movie movie)
         {
@@ -111,6 +117,7 @@ namespace MovieBase.Controllers
             return RedirectToAction("Index");
         }
 
+        [Authorize]
         [HttpGet]
         public IActionResult MovieAlreadyExists(int? id)
         {
