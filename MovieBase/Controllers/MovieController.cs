@@ -12,9 +12,9 @@ namespace MovieBase.Controllers
 {
     public class MovieController : Controller
     {
-        private IWebHostEnvironment _environment;
-        private MovieContext _db;
-        private UserManager<User> _userManager;
+        private readonly IWebHostEnvironment _environment;
+        private readonly MovieContext _db;
+        private readonly UserManager<User> _userManager;
         private const int ImageWidth = 150;
         private const int ImageHeight = 200;
 
@@ -27,36 +27,30 @@ namespace MovieBase.Controllers
 
         public IActionResult Index()
         {
-            var movies = _db.Movies.Include(m => m.Genre).ToList();
+            var movies = GetAllMovies();
             return View(movies);
         }
 
         public IActionResult Search(string searchStr)
         {
-            var movies = _db.Movies.Include(b => b.Genre).ToList();
-
+            var movies = GetAllMovies();
             if (string.IsNullOrEmpty(searchStr))
             {
                 ViewBag.Msg = "Напишите в строке поиска название фильма, что вы ищете.";
                 return View("Index", movies);
             }
 
-            var list = movies.Where(b =>
-                b.Name.Contains(searchStr, StringComparison.OrdinalIgnoreCase) ||
-                b.Genre.Name.Contains(searchStr, StringComparison.OrdinalIgnoreCase) ||
-                b.ReleaseYear.ToString().Contains(searchStr, StringComparison.OrdinalIgnoreCase) ||
-                b.Country.Contains(searchStr, StringComparison.OrdinalIgnoreCase)).ToList();
+            var searchResults = movies.Where(m =>
+                m.Name.Contains(searchStr, StringComparison.OrdinalIgnoreCase) ||
+                m.Genre.Name.Contains(searchStr, StringComparison.OrdinalIgnoreCase) ||
+                m.ReleaseYear.ToString().Contains(searchStr, StringComparison.OrdinalIgnoreCase) ||
+                m.Country.Contains(searchStr, StringComparison.OrdinalIgnoreCase)).ToList();
 
-            if (list.Count == 0)
-            {
-                ViewBag.Msg = "По Вашему запросу ничего не найдено";
-                return View("Index", movies);
-            }
-            else
-            {
-                ViewBag.Msg = $"По Вашему запросу найдено: {list.Count} фильмов";
-                return View("Index", list);
-            }
+            ViewBag.Msg = searchResults.Count == 0
+                ? "По Вашему запросу ничего не найдено"
+                : $"По Вашему запросу найдено: {searchResults.Count} фильмов";
+
+            return View("Index", searchResults.Any() ? searchResults : movies);
         }
 
         [Authorize(Roles = "manager")]
@@ -72,31 +66,22 @@ namespace MovieBase.Controllers
         {
             if (upload != null)
             {
-                string fileName = Path.GetFileName(upload.FileName);
-                var extFile = fileName.Substring(fileName.LastIndexOf('.'));
-                if (extFile.Contains("png") || extFile.Contains("bmp") || extFile.Contains("jpg")
-                    || extFile.Contains("jpeg"))
-                {
-                    var image = Image.Load(upload.OpenReadStream());
-                    image.Mutate(x => x.Resize(ImageWidth, ImageHeight));
-                    string path = "\\wwwroot\\images\\" + fileName;
-                    var hostPath = _environment.ContentRootPath + path;
-                    image.Save(hostPath);
-                    movie.ImageUrl = fileName;
-                }
+                movie.ImageUrl = SaveImage(upload);
             }
             _db.Movies.Add(movie);
             _db.SaveChanges();
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Index");
         }
 
         public IActionResult Details(int? id)
         {
             if (id == null)
                 return NotFound();
-            var movie = _db.Movies.Include(b => b.Genre).FirstOrDefault(b => b.Id == id);
+
+            var movie = GetMovieById(id.Value);
             if (movie == null)
                 return NotFound();
+
             return View(movie);
         }
 
@@ -105,9 +90,11 @@ namespace MovieBase.Controllers
         {
             if (id == null)
                 return NotFound();
-            var movie = _db.Movies.Include(b => b.Genre).FirstOrDefault(b => b.Id == id);
+
+            var movie = GetMovieById(id.Value);
             if (movie == null)
                 return NotFound();
+
             ViewBag.Genre = new SelectList(_db.Genres, "Id", "Name");
             return View(movie);
         }
@@ -118,22 +105,11 @@ namespace MovieBase.Controllers
         {
             if (upload != null)
             {
-                string fileName = Path.GetFileName(upload.FileName);
-                var extFile = fileName.Substring(fileName.LastIndexOf('.'));
-                if (extFile.Contains("png") || extFile.Contains("bmp") || extFile.Contains("jpg")
-                    || extFile.Contains("jpeg"))
-                {
-                    var image = Image.Load(upload.OpenReadStream());
-                    image.Mutate(x => x.Resize(ImageWidth, ImageHeight));
-                    string path = "\\wwwroot\\images\\" + fileName;
-                    var hostPath = _environment.ContentRootPath + path;
-                    image.Save(hostPath);
-                    movie.ImageUrl = fileName;
-                }
+                movie.ImageUrl = SaveImage(upload);
             }
-            _db.Movies.Add(movie).State = EntityState.Modified;
+            _db.Movies.Update(movie);
             _db.SaveChanges();
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Index");
         }
 
         [Authorize(Roles = "manager")]
@@ -141,19 +117,22 @@ namespace MovieBase.Controllers
         {
             if (id == null)
                 return NotFound();
-            var movie = _db.Movies.Include(b => b.Genre).FirstOrDefault(b => b.Id == id);
+
+            var movie = GetMovieById(id.Value);
             if (movie == null)
                 return NotFound();
+
             return View(movie);
         }
 
         [Authorize(Roles = "manager")]
         [HttpPost]
-        public IActionResult Delete(Movie movie)
+        public IActionResult DeleteConfirmed(int id)
         {
+            var movie = GetMovieById(id);
             if (movie != null)
             {
-                _db.Entry(movie).State = EntityState.Deleted;
+                _db.Movies.Remove(movie);
                 _db.SaveChanges();
             }
             return RedirectToAction("Index");
@@ -167,7 +146,33 @@ namespace MovieBase.Controllers
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+            var errorViewModel = new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier };
+            return View(errorViewModel);
+        }
+
+        private List<Movie> GetAllMovies()
+        {
+            return _db.Movies.Include(m => m.Genre).ToList();
+        }
+
+        private Movie? GetMovieById(int id)
+        {
+            return _db.Movies.Include(m => m.Genre).FirstOrDefault(m => m.Id == id);
+        }
+
+        private string SaveImage(IFormFile upload)
+        {
+            string fileName = Path.GetFileName(upload.FileName);
+            var extFile = fileName.Substring(fileName.LastIndexOf('.'));
+            if (new[] { ".png", ".bmp", ".jpg", ".jpeg" }.Contains(extFile.ToLower()))
+            {
+                var image = Image.Load(upload.OpenReadStream());
+                image.Mutate(x => x.Resize(ImageWidth, ImageHeight));
+                string path = Path.Combine(_environment.WebRootPath, "images", fileName);
+                image.Save(path);
+                return fileName;
+            }
+            return null;
         }
     }
 }

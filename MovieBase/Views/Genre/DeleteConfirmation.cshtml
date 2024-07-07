@@ -1,0 +1,15 @@
+﻿@model MovieBase.Models.Genre
+
+@{
+    ViewData["Title"] = "Confirm Delete";
+}
+
+<h1>Подтверждение удаления</h1>
+
+<p>Уверены, что хотите удалить жанр "@Model.Name"? Это действие также удалит @ViewBag.MovieCount фильмов.</p>
+
+<form asp-action="DeleteConfirmed">
+    <input type="hidden" asp-for="Id" />
+    <button type="submit" class="btn btn-danger">Да, удалить</button>
+    <a asp-action="Index" class="btn btn-secondary">Вернуться</a>
+</form>

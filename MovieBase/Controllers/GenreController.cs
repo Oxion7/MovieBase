@@ -1,15 +1,15 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using MovieBase.Models;
 
 namespace MovieBase.Controllers
 {
+    [Authorize(Roles = "manager")]
     public class GenreController : Controller
     {
-        private IWebHostEnvironment _environment;
-        private MovieContext _db;
+        private readonly IWebHostEnvironment _environment;
+        private readonly MovieContext _db;
 
         public GenreController(IWebHostEnvironment env, MovieContext context)
         {
@@ -17,57 +17,62 @@ namespace MovieBase.Controllers
             _db = context;
         }
 
-        [Authorize(Roles = "manager")]
         public IActionResult Index()
         {
-            var genre = _db.Genres.ToList();
-            return View(genre);
+            var genres = _db.Genres.ToList();
+            return View(genres);
         }
 
-        [Authorize(Roles = "manager")]
         public IActionResult Create()
         {
             return View();
         }
 
-        [Authorize(Roles = "manager")]
         [HttpPost]
         public IActionResult Create(Genre genre)
         {
-            // Check if the genre already exists
-            var existingGenre = _db.Genres.FirstOrDefault(g => g.Name == genre.Name);
-            if (existingGenre != null)
+            if (GenreExists(genre.Name))
             {
                 ModelState.AddModelError("Name", "Жанр с таким названием уже существует.");
                 return View(genre);
             }
+
             _db.Genres.Add(genre);
             _db.SaveChanges();
-            return RedirectToAction("Index", "Genre");
+            return RedirectToAction(nameof(Index));
         }
 
-        //TODO: сделать предупреждение если есть фильм этого жанра
-        [Authorize(Roles = "manager")]
         public IActionResult Delete(int? id)
         {
-            if (id == null)
-                return NotFound();
-            var genre = _db.Genres.FirstOrDefault(b => b.Id == id);
-            if (genre == null)
-                return NotFound();
+            if (id == null) return NotFound();
+
+            var genre = _db.Genres.FirstOrDefault(g => g.Id == id);
+            if (genre == null) return NotFound();
+
+            var movieCount = _db.Movies.Count(m => m.GenreId == id);
+            if (movieCount > 0)
+            {
+                ViewBag.MovieCount = movieCount;
+                return View("DeleteConfirmation", genre);
+            }
+
             return View(genre);
         }
 
-        [Authorize(Roles = "manager")]
         [HttpPost]
-        public IActionResult Delete(Genre genre)
+        public IActionResult DeleteConfirmed(int id)
         {
-            if (genre != null)
-            {
-                _db.Entry(genre).State = EntityState.Deleted;
-                _db.SaveChanges();
-            }
-            return RedirectToAction("Index", "Genre");
+            var genre = _db.Genres.Find(id);
+            if (genre == null) return NotFound();
+
+            _db.Genres.Remove(genre);
+            _db.SaveChanges();
+            return RedirectToAction(nameof(Index));
+        }
+
+        private bool GenreExists(string name)
+        {
+            return _db.Genres.Any(g => g.Name == name);
         }
     }
 }

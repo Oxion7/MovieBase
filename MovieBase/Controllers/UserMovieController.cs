@@ -3,14 +3,17 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MovieBase.Models;
+using System.Threading.Tasks;
+using System.Linq;
+using System.Collections.Generic;
 
 namespace MovieBase.Controllers
 {
+    [Authorize]
     public class UserMovieController : Controller
     {
-        private MovieContext _db;
-        private UserManager<User> _userManager;
-        //private RoleManager<IdentityRole> _roleManager;
+        private readonly MovieContext _db;
+        private readonly UserManager<User> _userManager;
 
         public UserMovieController(MovieContext context, UserManager<User> userManager)
         {
@@ -18,98 +21,64 @@ namespace MovieBase.Controllers
             _userManager = userManager;
         }
 
-        [Authorize]
         public async Task<IActionResult> Index()
         {
             var user = await _userManager.GetUserAsync(User);
+            if (user == null) return RedirectToAction("Login", "Account");
 
-            if (user == null)
-            {
-                return RedirectToAction("Login", "Account");
-            }
-
-            // Fetch movies, potentially with some filtering logic for the specific user
             var movies = await GetMoviesForUser(user.Id);
-
             return View(movies);
         }
 
-        [Authorize]
         [HttpGet]
         public async Task<IActionResult> AddMovieToUserAsync(int? id)
         {
+            if (id == null) return NotFound();
+
             var user = await _userManager.GetUserAsync(User);
-            if (id == null)
-                return NotFound();
-            var movie = _db.Movies.Include(b => b.Genre).FirstOrDefault(b => b.Id == id);
-            if (movie == null)
-                return NotFound();
-            var userMovieExists = await _db.UserMovies
-                                    .AnyAsync(um => um.UserId == user.Id && um.MovieId == movie.Id);
-            if (userMovieExists)
-            {
-                return RedirectToAction("MovieAlreadyExists", new { id = movie.Id });
-            }
+            var movie = await _db.Movies.Include(b => b.Genre).FirstOrDefaultAsync(b => b.Id == id);
+            if (movie == null) return NotFound();
+
+            var userMovieExists = await _db.UserMovies.AnyAsync(um => um.UserId == user.Id && um.MovieId == movie.Id);
+            if (userMovieExists) return RedirectToAction("MovieAlreadyExists", new { id = movie.Id });
+
             return View(movie);
         }
 
-        [Authorize]
         [HttpPost]
         public async Task<IActionResult> AddMovieToUser(Movie movie)
         {
-            if (movie == null)
-                return NotFound();
+            if (movie == null) return NotFound();
 
-            // Get the current logged-in user
             var user = await _userManager.GetUserAsync(User);
-            if (user == null)
-                return RedirectToAction("Login", "Account");
+            if (user == null) return RedirectToAction("Login", "Account");
 
-            // Create a new UserMovie entry
-            var userMovie = new UserMovie
-            {
-                UserId = user.Id,
-                MovieId = movie.Id
-            };
-
-            // Add the UserMovie entry to the database
+            var userMovie = new UserMovie { UserId = user.Id, MovieId = movie.Id };
             _db.UserMovies.Add(userMovie);
             await _db.SaveChangesAsync();
 
             return RedirectToAction("Index");
         }
 
-        [Authorize]
         [HttpGet]
         public async Task<IActionResult> DeleteMovieFromUser(int? id)
         {
-            // Get the current logged-in user
-            var user = await _userManager.GetUserAsync(User);
-            if (user == null)
-                return RedirectToAction("Login", "Account");
+            if (id == null) return NotFound();
 
-            if (id == null)
-                return NotFound();
-            var movie = _db.Movies.Include(b => b.Genre).FirstOrDefault(b => b.Id == id);
-            if (movie == null)
-                return NotFound();
+            var movie = await GetMovieByIdAsync(id.Value);
+            if (movie == null) return NotFound();
+
             return View(movie);
         }
 
-        [Authorize]
         [HttpPost]
-        public async Task<IActionResult> DeleteMovieFromUser(Movie movie)
+        public async Task<IActionResult> DeleteMovieFromUser(int id)
         {
-            // Get the current logged-in user
             var user = await _userManager.GetUserAsync(User);
-            if (user == null)
-                return RedirectToAction("Login", "Account");
+            if (user == null) return RedirectToAction("Login", "Account");
 
-            // Find the UserMovie entry
-            var userMovie = await _db.UserMovies
-                                     .FirstOrDefaultAsync(um => um.UserId == user.Id && um.MovieId == movie.Id);
-            if (userMovie == null)
-                return NotFound();
+            var userMovie = await _db.UserMovies.FirstOrDefaultAsync(um => um.UserId == user.Id && um.MovieId == id);
+            if (userMovie == null) return NotFound();
 
             _db.UserMovies.Remove(userMovie);
             await _db.SaveChangesAsync();
@@ -117,35 +86,30 @@ namespace MovieBase.Controllers
             return RedirectToAction("Index");
         }
 
-        [Authorize]
         [HttpGet]
         public IActionResult MovieAlreadyExists(int? id)
         {
-            if (id == null)
-                return NotFound();
+            if (id == null) return NotFound();
 
             var movie = _db.Movies.Include(b => b.Genre).FirstOrDefault(b => b.Id == id);
-            if (movie == null)
-                return NotFound();
+            if (movie == null) return NotFound();
 
             return View(movie);
         }
 
         private async Task<List<Movie>> GetMoviesForUser(string userId)
         {
-            if (string.IsNullOrEmpty(userId))
-            {
-                return new List<Movie>();
-            }
+            return await _db.UserMovies
+                            .Include(um => um.Movie)
+                            .ThenInclude(m => m.Genre)
+                            .Where(um => um.UserId == userId)
+                            .Select(um => um.Movie)
+                            .ToListAsync();
+        }
 
-            var movies = await _db.UserMovies
-                                  .Include(um => um.Movie)
-                                  .ThenInclude(m => m.Genre)
-                                  .Where(um => um.UserId == userId)
-                                  .Select(um => um.Movie)
-                                  .ToListAsync();
-
-            return movies;
+        private async Task<Movie?> GetMovieByIdAsync(int id)
+        {
+            return await _db.Movies.Include(b => b.Genre).FirstOrDefaultAsync(b => b.Id == id);
         }
     }
 }

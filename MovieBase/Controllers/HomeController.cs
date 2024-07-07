@@ -8,7 +8,7 @@ namespace MovieBase.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-        private MovieContext _db;
+        private readonly MovieContext _db;
 
         public HomeController(ILogger<HomeController> logger, MovieContext context)
         {
@@ -24,7 +24,7 @@ namespace MovieBase.Controllers
 
         public IActionResult Search(string searchStr)
         {
-            var movies = _db.Movies.Include(b => b.Genre).ToList();
+            var movies = _db.Movies.Include(m => m.Genre).ToList();
 
             if (string.IsNullOrEmpty(searchStr))
             {
@@ -32,22 +32,17 @@ namespace MovieBase.Controllers
                 return View("Index", movies);
             }
 
-            var list = movies.Where(b =>
-                b.Name.Contains(searchStr, StringComparison.OrdinalIgnoreCase) ||
-                b.Genre.Name.Contains(searchStr, StringComparison.OrdinalIgnoreCase) ||
-                b.ReleaseYear.ToString().Contains(searchStr, StringComparison.OrdinalIgnoreCase) ||
-                b.Country.Contains(searchStr, StringComparison.OrdinalIgnoreCase)).ToList();
+            var searchResults = movies.Where(m =>
+                m.Name.Contains(searchStr, StringComparison.OrdinalIgnoreCase) ||
+                m.Genre.Name.Contains(searchStr, StringComparison.OrdinalIgnoreCase) ||
+                m.ReleaseYear.ToString().Contains(searchStr, StringComparison.OrdinalIgnoreCase) ||
+                m.Country.Contains(searchStr, StringComparison.OrdinalIgnoreCase)).ToList();
 
-            if (list.Count == 0)
-            {
-                ViewBag.Msg = "По Вашему запросу ничего не найдено";
-                return View("Index", movies);
-            }
-            else
-            {
-                ViewBag.Msg = $"По Вашему запросу найдено: {list.Count} фильмов";
-                return View("Index", list);
-            }
+            ViewBag.Msg = searchResults.Count == 0
+                ? "По Вашему запросу ничего не найдено"
+                : $"По Вашему запросу найдено: {searchResults.Count} фильмов";
+
+            return View("Index", searchResults.Any() ? searchResults : movies);
         }
 
         public IActionResult Privacy()
@@ -58,7 +53,8 @@ namespace MovieBase.Controllers
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+            var errorViewModel = new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier };
+            return View(errorViewModel);
         }
     }
 }
